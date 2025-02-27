@@ -1,1 +1,1 @@
-declare module "react-unity-webgl";
+// declare module "react-unity-webgl";

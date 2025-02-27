@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 
 import React, { useState, useEffect } from "react";
 import { Unity, useUnityContext } from "react-unity-webgl";
@@ -76,3 +76,6 @@ export const UnityApp: React.FC = () => {
     </div>
   );
 };
+
+// ここで default export を追加
+export default UnityApp;
