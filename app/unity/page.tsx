@@ -1,13 +1,13 @@
 import React from "react";
-// import { UnityApp } from "../components/UnityApp";
-// import { UnityApp } from "../components/UnityApp";
 import UnityWrapper from "../components/UnityWrapper"; // `UnityWrapper.tsx` をインポート
 
 
 export default function Home() {
   return (
-    <main style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
-      <UnityWrapper />
+    <main className="bg-green-50 width: '100vw', height: '100vh', display: 'flex', flexDirection: 'column'">
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+        <UnityWrapper />
+      </div>
     </main>
   );
 }

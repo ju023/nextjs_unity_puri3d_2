@@ -1,101 +1,111 @@
 import Image from "next/image";
+import Link from 'next/link';
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    // 独自フォントの実装 font-cinecaption
+    <div className="bg-green-50 min-h-screen text-gray-800 font-cinecaption">
+      {/* ヘッダー */}
+      <header className="fixed justify-center top-0 w-full flex flex-col md:flex-row  items-center p-4 bg-green-100 shadow">
+        <Link href="/unity" className="text-gray-600 hover:text-black">
+          <div className="flex items-center text-lg font-bold bg-emerald-200 inline-block px-4 py-2 rounded shadow">
+            <Image src="/assets/images/putidlogo.png" alt="Puri" width={100} height={200} className="rounded-lg " />
+            <span className="ml-2">プレイ</span>
+          </div>
+        </Link>
+        <nav className="space-x-4 text-2xl ml-10">
+          <a href="#home" className="text-gray-600 hover:text-black">ホーム</a>
+          <a href="#story" className="text-gray-600 hover:text-black">ストーリー</a>
+          <a href="#howtoplay" className="text-gray-600 hover:text-black">遊び方</a>
+        </nav>
+      </header>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      {/* メインコンテンツ */}
+      <main id="home" className="p-8">
+        {/* タイトル＆キャラ画像 */}
+        {/* 文字 + logo と puri3dmodel 横並び配置 */}
+        <div className="mt-40 mb-12 flex flex-col md:flex-row items-center gap-8 justify-center">
+          {/* 文字 と logo 縦並び配置 */}
+          <div className="flex flex-col md:flex-col items-center gap-0">
+            <div className="text-center md:text-left">
+              <h2 className="text-2xl font-bold ">Puriは君の大切な <span className="text-red-500">友達</span></h2>
+              <h2 className="text-2xl font-bold">大切な <span className="text-red-500">家族</span></h2>
+              <h2 className="mt-2 text-2xl font-bold">いつも傍にいる</h2>
+              <h2 className="text-2xl font-bold">大切な <span className="text-red-500">モノ</span> をあなたにも</h2>
+            </div>
+            <Image src="/assets/images/putidlogo.png" alt="Puri" width={500} height={200} className="rounded-lg" />
+          </div>
+          {/* 文字 と logo 縦並び配置 end */}
+          <Image src="/assets/images/test1.png" alt="Puri" width={400} height={200} className="rounded-lg" />
         </div>
+        {/* 文字 + logo と puri3dmodel 横並び配置 end */}
+
+        {/* ストーリー */}
+        {/* <section className="mt-12 bg-gray-100 p-6 rounded-lg shadow"> */}
+          {/* <h3 className="text-lg font-bold">ストーリー</h3> */}
+        <section id="story" className="mt-80">
+          <div className="border-t-4 border-gray-200 shadow"></div>
+          <h3 className="mt-12 text-lg font-bold bg-gray-200 inline-block px-4 py-2 rounded shadow">ストーリー</h3>  
+          <div className="flex flex-col md:flex-col items-center gap-0">
+            {/* 画像 + 文字 横並び配置 */}
+            <div className="mt-4 flex flex-col md:flex-row items-center gap-6 justify-center"> 
+                <div className="p-4 rounded-lg">
+                  <Image src="/assets/images/test4.png" alt="Story" width={500} height={400} className="rounded shadow" />
+                </div>
+                <div className="mt-12 bg-gray-100 p-9 rounded-lg shadow">
+                  <p className="text-gray-700 text-xl">
+                    すこし休憩がしたくなった。<br />
+                    なにかをぼーっと眺めたい。<br />
+                    そんな <span className="text-red-500 font-bold">癒し</span> が欲しい...
+                  </p>
+                </div>
+            </div>
+            <div className="mt-6 bg-gray-100 p-9 rounded-lg shadow">
+              <p className="text-gray-700 text-2xl">
+                puriは自由気ままに動きます。<br />
+                こちらからアクションをすることは特にありません。<br />
+                <br />
+                puriは自由行動、ダンス、睡眠など自発的に行うため <br />
+                生きている１つの<span className="text-red-500 font-bold">生き物</span> として接し見守ってくれると <br />
+                いつかpuriの方から心を開いてくれます。
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* 遊び方 */}
+        <section id="howtoplay" className="mt-80">
+          <div className="border-t-4 border-gray-200 shadow"></div>
+          <h3 className="mt-12 text-lg font-bold bg-gray-200 inline-block px-4 py-2 rounded shadow">遊び方</h3>
+          <div className="mt-4 flex flex-col md:flex-row items-center gap-6 justify-center">
+            <div className="p-4 rounded-lg">
+              <Image src="/assets/images/test5.png" alt="Game" width={700} height={500} className="rounded shadow" />
+            </div>
+            <div className="mt-12 bg-gray-100 p-6 rounded-lg shadow">
+              <ul className="text-sm text-gray-700 text-xl">
+                <li>● PCの場合</li>
+                <br />
+                <li>・視点移動</li>
+                <li>右クリック+マウス移動</li>
+                <br />
+                <li>・ズーム</li>
+                <li>マウスホイール上下</li>
+                <br />
+                <li>● スマホの場合</li>
+                <li>・視点移動</li>
+                <li>２本指でスワイプ</li>
+                <li>(１本指だとクリック)</li>
+                <br />
+                <li>・ズームイン</li>
+                <li>ZoomInを送信の押下</li>
+                <br />
+                <li>・ズームアウト</li>
+                <li>ZoomOutを送信の押下</li>
+              </ul>
+            </div>
+          </div>
+        </section>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }
