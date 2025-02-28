@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 
 import React, { useState, useEffect } from "react";
 import { Unity, useUnityContext } from "react-unity-webgl";
@@ -64,15 +64,20 @@ export const UnityApp: React.FC = () => {
         }}
         className={styles.unityCanvas}
       />
-      <button onClick={sendToUnity} className={styles.button}>
-        Unity に送信
-      </button>
-      <button onClick={sendToZoomInUnity} className={styles.button}>
-        ZoomIn に送信
-      </button>
-      <button onClick={sendToZoomOutUnity} className={styles.button}>
-        ZoomOut に送信
-      </button>
+      <div className="flex justify-evenly items-center gap-8">
+        <button onClick={sendToUnity} className={styles.button}>
+          Unity に送信
+        </button>
+        <button onClick={sendToZoomInUnity} className={styles.button}>
+          ZoomIn を送信
+        </button>
+        <button onClick={sendToZoomOutUnity} className={styles.button}>
+          ZoomOut を送信
+        </button>
+      </div>
     </div>
   );
 };
+
+// ここで default export を追加
+export default UnityApp;
