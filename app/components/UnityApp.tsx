@@ -1,6 +1,7 @@
 // "use client";
 
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Unity, useUnityContext } from "react-unity-webgl";
 import styles from "../styles/UnityApp.module.css"; // CSS モジュールをインポート
 
@@ -52,9 +53,22 @@ export const UnityApp: React.FC = () => {
       console.warn("Unity がまだロードされていません");
     }
   };
+  
+  const router = useRouter();
+
+  const exitGame = () => {
+    if (window.confirm("本当にゲームを終了しますか？")) {
+      router.push("/");
+    }
+  };
 
   return (
     <div className={styles.unityContainer}>
+      <div className="mb-2 font-cinecaption">
+        <button onClick={exitGame} className={styles.button}>
+            ゲームを終了する
+        </button>
+      </div>
       {!isLoaded && <p className={styles.loadingText}>Loading... ({Math.round(loadingProgression * 100)}%)</p>}
       <Unity
         unityProvider={unityProvider}
@@ -64,7 +78,7 @@ export const UnityApp: React.FC = () => {
         }}
         className={styles.unityCanvas}
       />
-      <div className="flex justify-evenly items-center gap-8">
+      <div className="flex justify-evenly items-center gap-8 font-cinecaption">
         <button onClick={sendToUnity} className={styles.button}>
           Unity に送信
         </button>
