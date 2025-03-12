@@ -1,3 +1,4 @@
+// app/firebase/authentication/page.tsx
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -16,21 +17,15 @@ const AuthPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // ユーザー認証状態の変更を監視する
   useEffect(() => {
-    // onAuthStateChangedを使用して認証状態の変更を監視
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      // ユーザー情報を状態に設定
       if (currentUser) {
-        // ユーザーが存在する場合、ログイン成功後に `/firebase` へリダイレクト
         router.push("/firebase");
       }
     });
-
-    // コンポーネントのアンマウント時に監視を解除
     return () => unsubscribe();
-  }, []);
+  }, [router]);
 
   return (
     <div className="p-4 max-w-md mx-auto">

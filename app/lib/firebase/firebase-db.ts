@@ -1,6 +1,6 @@
 // app/lib/firebase/firebase-db.ts
 // Firestoreのデータベース操作ファイル
-import { collection, addDoc, getDocs, DocumentData } from "firebase/firestore";
+import { collection, addDoc, getDocs } from "firebase/firestore";
 import { db } from "./firebase-config";
 
 const COLLECTION_NAME = "messages";

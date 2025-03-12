@@ -1,7 +1,7 @@
 // Firebase操作用の関数ファイル
 // app/lib/firebase/firebase-functions.ts
 import { saveMessage, getMessages } from "./firebase-db";
-import { signInWithGoogle, logOut,  } from "./firebase-auth";
+import { signInWithGoogle } from "./firebase-auth";
 import { signInAnonymously, signOut } from "firebase/auth";
 import { auth } from "./firebase-config";
 import { signUpWithEmail, loginWithEmail } from "./firebase-auth";
@@ -18,13 +18,6 @@ export const loginWithGoogle = async () => {
   return await signInWithGoogle();
 };
 
-/*
-export const logoutFromFirebase = async () => {
-  await logOut();
-};
-*/
-
-// 匿名ログイン
 export const loginAnonymously = async () => {
   try {
     const result = await signInAnonymously(auth);
@@ -34,7 +27,6 @@ export const loginAnonymously = async () => {
   }
 };
   
-// ログアウト
 export const logoutFromFirebase = async () => {
   try {
     await signOut(auth);
