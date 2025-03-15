@@ -2,26 +2,95 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { sendFirebaseMessage, fetchFirebaseMessages, logoutFromFirebase } from "../lib/firebase/firebase-functions";
+import { useRouter, usePathname } from "next/navigation";
+import { sendFirebaseMessage,
+          fetchFirebaseMessages,
+          logoutFromFirebase} from "../lib/firebase/firebase-functions";
 import { auth } from "../lib/firebase/firebase-config";
 import { onAuthStateChanged } from "firebase/auth";
+//import { adminisAuthenticatedClient } from "../lib/admin/admin-auth";   // クライアントサイド用の関数を使用
 
 const FirebaseTestPage = () => {
   const router = useRouter();
+  const pathname = usePathname();
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<{ text: string; userId: string }[]>([]);
   const [user, setUser] = useState(auth.currentUser);
   const [loginMethod, setLoginMethod] = useState<string | null>(null);
 
-  // ユーザー認証状態の変更を監視する
+
+  // 管理者認証チェック & リダイレクト
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const res = await fetch("/api/admin", { credentials: "include" }); // ✅ クッキーを送信
+        const data = await res.json();
+        
+        if (!data.isAuthenticated) {
+          router.replace("/admin");
+        }
+      } catch (error) {
+        console.error("認証チェック中にエラー:", error);
+        router.replace("/admin");
+      }
+    };
+  
+    checkAuth();
+  }, [router]);
+
+  /*
+  useEffect(() => {
+    const checkAuth = async () => {
+      const res = await fetch("/api/admin-auth");
+      if (!res.ok) {
+        router.push("/admin");
+      }
+    };
+
+    checkAuth();
+  }, [router]);
+  */
+
+  //
+  // 管理者認証状態の確認とリダイレクト (クライアントサイドでの念のためのチェック - Middlewareで保護されているため基本不要)
+  //
+  /*
+  useEffect(() => {
+    if (!adminisAuthenticatedClient()) {
+      router.push("/admin"); // 認証されていなければログインページへリダイレクト
+    }
+  }, [router]);
+  */
+
+  //
+  // firebase外に遷移の時に管理者ログアウト処理
+  //
+  useEffect(() => {
+    const handleRouteChange = async () => {
+      if (pathname !== "/firebase" && pathname !== "/firebase/authentication") {
+        await fetch("/api/admin");
+      }
+    };
+    handleRouteChange(); // 初期ロード時にも実行
+  }, [pathname]);
+
+  //
+  // Firebaseユーザー認証状態の監視
+  //
   useEffect(() => {
     // onAuthStateChangedで認証状態の変更を監視し、ユーザー情報を更新
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       // ユーザーが存在する場合、ログイン方法を設定
       if (currentUser) {
-        setLoginMethod(currentUser.isAnonymous ? "匿名" : (currentUser.providerData[0].providerId === "google.com" ? "Google" : "メール"));
+        setLoginMethod(
+          currentUser.isAnonymous
+            ? "匿名"
+            : currentUser.providerData[0].providerId === "google.com"
+            ? "Google"
+            : "メール"
+        );
+      // ユーザーが存在しない場合、ログイン方法をnullに設定
       } else {
         // ユーザーが存在しない場合、ログイン方法をnullに設定
         setLoginMethod(null);
@@ -29,12 +98,14 @@ const FirebaseTestPage = () => {
         router.push("/firebase/authentication");
       }
     });
-
     // コンポーネントのアンマウント時に監視を解除
     return () => unsubscribe();
   }, [router]);
 
-  // メッセージをロードする
+
+  //
+  // Firebaseメッセージのロード
+  //
   useEffect(() => {
     const loadMessages = async () => {
       // Firebaseからメッセージを取得
@@ -47,7 +118,9 @@ const FirebaseTestPage = () => {
     // 依存配列を空にすることで、コンポーネントのマウント時に一度だけ実行
   }, []);
 
-  // メッセージ送信処理
+  //
+  // Firebaseメッセージ送信処理
+  //
   const handleSendMessage = async () => {
     // メッセージが空またはユーザーが存在しない場合は処理を中断
     if (!message.trim() || !user) return;
@@ -60,6 +133,10 @@ const FirebaseTestPage = () => {
     setMessages(fetchedMessages);
   };
 
+
+  //
+  // page.tsxの表示
+  //
   return (
     <div className="p-4 max-w-md mx-auto">
       <h1 className="text-xl font-bold mb-4">Firebase 接続テスト</h1>
@@ -98,6 +175,7 @@ const FirebaseTestPage = () => {
       )}
     </div>
   );
+
 };
 
 export default FirebaseTestPage;
