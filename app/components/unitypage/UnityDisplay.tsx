@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Unity } from "react-unity-webgl";
-import styles from "../styles/UnityApp.module.css";
-import { useCreateUnityContext } from "../lib/unity-context";
+import styles from "../../styles/UnityApp.module.css";
+import { useCreateUnityContext } from "../../lib/unity-context";
 
 // UnityDisplay コンポーネントの Props の型定義
 interface UnityDisplayProps {

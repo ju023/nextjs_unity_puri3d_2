@@ -1,6 +1,6 @@
 import React from "react";
 import { useRouter } from "next/navigation";
-import styles from "../styles/UnityApp.module.css";
+import styles from "../../styles/UnityApp.module.css";
 
 // ゲーム終了ボタンコンポーネント
 export const UnityExitBtn: React.FC = () => {

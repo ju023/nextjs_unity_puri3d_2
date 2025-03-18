@@ -1,11 +1,11 @@
-// app/layout.tsx
+// app/unity/layout.tsx
 
-import './styles/globals.css'; // グローバルCSSをインポート
-// import TopHeader from './components/toppage/TopHeader';
+import '../styles/globals.css'; // グローバルCSSをインポート
+// import UnityHeader from '../components/unity/UnityHeader';
 // import Topmain from './components/top/main';
 
 export const metadata = {
-    title: "PuriProject Topページ",
+    title: "PuriProject Unityページ",
     description: "Next.jsのApp Routerでコンポーネント管理する",
   };
 
@@ -15,16 +15,17 @@ export const metadata = {
     children: React.ReactNode;
   }) {
     return (
-      <html>
-        <body>
+      //<html lang="en">
+        //<body>
+        <div>
           {/* ヘッダー */}
-          {/*<TopHeader />*/}
-          {/* ヘッダーとpage.tsxの間に空白 */}
+          {/*<UnityHeader />*/}
           {/* page.tsx */}
           {children}
           {/* フッター */}
           <footer></footer>
-        </body>
-      </html>
+        </div>
+        //</body>
+      //</html>
     );
   }

@@ -1,6 +1,6 @@
 import React from "react";
-import styles from "../styles/UnityApp.module.css";
-import { useCreateUnityContext } from "../lib/unity-context";
+import styles from "../../styles/UnityApp.module.css";
+import { useCreateUnityContext } from "../../lib/unity-context";
 
 // UnityController コンポーネントの Props の型定義
 interface UnityControllerProps {

@@ -1,9 +1,9 @@
 import React from "react";
-import { useCreateUnityContext } from "../lib/unity-context";
+import { useCreateUnityContext } from "../../lib/unity-context";
 import UnityDisplay from "./UnityDisplay";
 import UnityController from "./UnityController";
-import UnityExitBtn from "./UnityExitBtn";
-import styles from "../styles/UnityApp.module.css";
+// import UnityExitBtn from "./UnityExitBtn";
+import styles from "../../styles/UnityApp.module.css";
 
 // Unity画面をここで統合する（主に表示のみ行う）
 export const UnityApp: React.FC = () => {
@@ -11,7 +11,7 @@ export const UnityApp: React.FC = () => {
 
   return (
     <div className={styles.unityContainer}>
-      <UnityExitBtn />
+      {/*<UnityExitBtn />*/}
       {/* unityContext を渡す */}
       <UnityDisplay unityContext={unityContext} />
       <UnityController unityContext={unityContext} />
