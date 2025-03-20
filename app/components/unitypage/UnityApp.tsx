@@ -18,30 +18,34 @@ export const UnityApp: React.FC = () => {
   const [showLoginLightbox, setShowLoginLightbox] = useState(false); // ライトボックスの表示状態を管理する state
   const router = useRouter(); // useRouter を初期化
   const [isLoginUid, setLoginUid] = useState(String); // 取得したいメッセージのuid
+  const [isLoginUidReady, setIsLoginUidReady] = useState(false); // isLoginUid設定完了フラグ
   const isFirstRender = useRef(true); // 初回レンダリングフラグ
 
   // 1:Unityページに遷移:最初にログイン済みか検証
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setIsLoggedIn(!!user); // ログイン状態を更新
-      if (user) {
-          console.log("ログイン済み");
-          // console.log(user.uid); // ID(uid)の確認。これでDBとデータを紐づけできるかも？
-          setLoginUid(user.uid);  // ログインユーザーを変数に保持
-          console.log(isLoginUid);
-      } else {
-          console.log("未ログイン");
-          setShowLoginLightbox(true); // ライトボックスを表示
-          console.log(showLoginLightbox);
-      }
-  });
+    if (!isLoginUidReady) {
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+        setIsLoggedIn(!!user); // ログイン状態を更新
+        if (user) {
+            console.log("ログイン済み");
+            // console.log(user.uid); // ID(uid)の確認。これでDBとデータを紐づけできるかも？
+            setLoginUid(user.uid);  // ログインユーザーを変数に保持
+            setIsLoginUidReady(true); // isLoginUid設定完了
+            console.log(isLoginUid);
+        } else {
+            console.log("未ログイン");
+            setShowLoginLightbox(true); // ライトボックスを表示
+            console.log(showLoginLightbox);
+        }
+      });
 
-  return () => unsubscribe(); // クリーンアップ関数
+      return () => unsubscribe(); // クリーンアップ関数
+    }
   })
 
   // 2:ログインユーザーの最新情報を取得
   useEffect(() => {
-    if (isFirstRender.current) {
+    if (isFirstRender.current && isLoginUidReady) {
 
       const checkLogInUser = async() => {
         const messages = await getSelectMessages(isLoginUid);
@@ -56,7 +60,7 @@ export const UnityApp: React.FC = () => {
       checkLogInUser();
 
     }
-  }, [isLoginUid])  // isLoginUid を依存配列に追加
+  }, [isLoginUid, isLoginUidReady])  // isLoginUid を依存配列に追加
 
   const unityContext = useCreateUnityContext(); // 外部の関数を呼び出す
 
