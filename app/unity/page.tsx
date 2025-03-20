@@ -1,9 +1,9 @@
 import React from "react";
 import UnityWrapper from "../components/unitypage/UnityWrapper"; // `UnityWrapper.tsx` をインポート
-import UnityHeader from "../components/unitypage/UnityHeader";
+import UnityHeader from "../components/header/UnityHeader";
 
 
-export default function Home() {
+export default function UnityHome() {
   return (
 
     <main>

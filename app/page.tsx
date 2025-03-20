@@ -2,9 +2,9 @@
 // import Image from "next/image";
 // import Link from 'next/link';
 import Topmain from "./components/toppage/TopApp";
-import TopHeader from "./components/toppage/TopHeader";
+import TopHeader from "./components/header/TopPageHeader";
 
-export default function Home() {
+export default function TopHome() {
   return (
     // 独自フォントの実装 font-cinecaption
     // <div className="bg-green-50 min-h-screen text-gray-800 font-cinecaption">

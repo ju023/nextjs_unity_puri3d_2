@@ -1,0 +1,14 @@
+・AdminHeader.tsx
+管理者認証のヘッダー
+
+・IconHeader.tsx
+ユーザー認証（ユーザーログイン）のヘッダー
+
+・ManuHeader.tsx
+Topページで使用する「ゲームプレイボタン」「ホーム」「ストーカー」「遊び方」を記載しているヘッダー
+
+・TopPageHeader.tsx
+Topページで使用するIconHeader、ManuHeader、AdminHeaderを統括しているヘッダー
+
+・UnityHeader.tsx
+Unityゲームで使用する「ゲーム終了」などを記載しているヘッダー

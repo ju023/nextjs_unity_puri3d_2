@@ -16,7 +16,9 @@ const firebaseConfig = {
 
 // Firebase アプリを初期化
 const app = initializeApp(firebaseConfig);
+// Firebase APIキーなどの情報が正しいかなど確認し初期化
 const db = getFirestore(app);
+// Firebase 登録ユーザーの認証情報を取得処理。ユーザーIDや、登録メールアドレスなど、ユーザー登録した際に、ユーザーに紐づけられた情報を取得
 const auth = getAuth(app);
 
 export { app, db, auth };

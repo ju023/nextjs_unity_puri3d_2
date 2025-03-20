@@ -1,13 +1,86 @@
-import React from "react";
+import React, { useEffect
+                ,useState
+                ,useRef } from "react";
 import { useCreateUnityContext } from "../../lib/unity-context";
 import UnityDisplay from "./UnityDisplay";
 import UnityController from "./UnityController";
 // import UnityExitBtn from "./UnityExitBtn";
 import styles from "../../styles/UnityApp.module.css";
+import { auth } from "../../lib/firebase/firebase-config"; // Firebase Authentication の auth をインポート
+import { onAuthStateChanged } from "firebase/auth"; // onAuthStateChanged をインポート
+import { useRouter } from "next/navigation"; // useRouter をインポート
+import { getSelectMessages } from "@/app/lib/firebase/firebase-db";
+
 
 // Unity画面をここで統合する（主に表示のみ行う）
 export const UnityApp: React.FC = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null); // ログイン状態を管理する state
+  const [showLoginLightbox, setShowLoginLightbox] = useState(false); // ライトボックスの表示状態を管理する state
+  const router = useRouter(); // useRouter を初期化
+  const [isLoginUid, setLoginUid] = useState(String); // 取得したいメッセージのuid
+  const isFirstRender = useRef(true); // 初回レンダリングフラグ
+
+  // 1:Unityページに遷移:最初にログイン済みか検証
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setIsLoggedIn(!!user); // ログイン状態を更新
+      if (user) {
+          console.log("ログイン済み");
+          // console.log(user.uid); // ID(uid)の確認。これでDBとデータを紐づけできるかも？
+          setLoginUid(user.uid);  // ログインユーザーを変数に保持
+          console.log(isLoginUid);
+      } else {
+          console.log("未ログイン");
+          setShowLoginLightbox(true); // ライトボックスを表示
+          console.log(showLoginLightbox);
+      }
+  });
+
+  return () => unsubscribe(); // クリーンアップ関数
+  })
+
+  // 2:ログインユーザーの最新情報を取得
+  useEffect(() => {
+    if (isFirstRender.current) {
+
+      const checkLogInUser = async() => {
+        const messages = await getSelectMessages(isLoginUid);
+        if (messages.length > 0) {
+          console.log("最新メッセージ:", messages[0]);
+          isFirstRender.current = false; // 初回レンダリングフラグを false に設定
+        } else {
+          console.log("メッセージはありません。");
+        }
+      };
+
+      checkLogInUser();
+
+    }
+  }, [isLoginUid])  // isLoginUid を依存配列に追加
+
   const unityContext = useCreateUnityContext(); // 外部の関数を呼び出す
+
+  // ログイン状態の場合はローディング表示
+  if (isLoggedIn === null) {
+    return <div>Loading...</div>;
+  }
+
+  //
+  // unity/page.tsxに表示する内容
+  //
+  // Unityページに遷移:未ログインの場合はレンダリング中止しTopページに遷移する
+  if (!isLoggedIn) {
+    return (
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center font-cinecaption">
+            <div className="bg-white p-8 rounded-lg">
+                <p className="text-lg mb-4 text-gray-800">ログインを行ってください。</p>
+                <div className="flex justify-around">
+                    <button className="bg-blue-500 text-white px-4 py-2 rounded-lg" onClick={() => router.push("/")}>Topページ</button>
+                </div>
+            </div>
+        </div>
+    );
+  }
 
   return (
     <div className={styles.unityContainer}>

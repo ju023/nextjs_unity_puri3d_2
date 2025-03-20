@@ -8,7 +8,7 @@ export default function MenuHeader() {
     // 独自フォントの実装 font-cinecaption
     <div className="bg-green-50 text-gray-800 font-cinecaption">
         {/* メニューヘッダーの要素 */}
-        <div className="flex flex-col md:flex-row justify-center  items-center p-2 bg-green-100">
+        <div className="flex items-center bg-green-100">
           {/* Unityゲームプレイのボタン */}
           <Link href="/unity" className="text-gray-600 focus:outline-2">
               <div className="flex items-center text-lg font-bold bg-emerald-200 inline-block px-4 py-2 rounded shadow hover:text-black 

@@ -2,9 +2,9 @@
 
 // import Image from "next/image";
 // import Link from 'next/link';
-import AdminHeader from "../adminpage/AdminHeader";
-import MenuHeader from "../menupage/ManuHeader";
-import IconHeader from "../menupage/IconHeader";
+import AdminHeader from "./AdminHeader";
+import MenuHeader from "./ManuHeader";
+import IconHeader from "./IconHeader";
 
 export default function TopHeader() {
   return (
@@ -18,7 +18,7 @@ export default function TopHeader() {
             <div className="items-center flex px-4">
               <IconHeader />
             </div>
-            <div className="items-center">
+            <div className="items-center flex ">
               <MenuHeader />
             </div>
             {/*</div>*/}

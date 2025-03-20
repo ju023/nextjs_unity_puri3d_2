@@ -1,7 +1,8 @@
-// app/firebase/page.tsx
+// app/login/page.tsx
 // import Topmain from "../components/toppage/TopApp";
 import AdminPageHeader from "../components/header/AdminPageHeader";
-import FirebaseTestPage from "../components/firebasepage/FirebaseApp";
+// import FirebaseTestPage from "../components/firebasepage/FirebaseApp";
+import LogInPage from "../components/loginpage/LogInApp";
 
 export default function TopHome() {
   return (
@@ -11,7 +12,7 @@ export default function TopHome() {
       {/* ヘッダー */}
       <AdminPageHeader/>
       {/* トップpage.tsx */}
-      <FirebaseTestPage/>
+      <LogInPage/>
     </main>
   );
 }

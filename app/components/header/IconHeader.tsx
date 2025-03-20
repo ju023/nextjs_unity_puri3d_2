@@ -1,9 +1,9 @@
-// app/components/toppage/TopHeader.tsx
+// app/components/toppage/IconHeader.tsx
 
 import Image from "next/image";
 import Link from 'next/link';
 
-export default function MenuHeader() {
+export default function IconHeader() {
   return (
     // 独自フォントの実装 font-cinecaption
     <div className="bg-green-100 text-gray-800 font-cinecaption">

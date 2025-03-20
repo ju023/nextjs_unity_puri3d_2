@@ -33,7 +33,7 @@ export default function UnityHeader() {
           onClick={exitGame}
           className="text-gray-600 hover:text-black ml-4"
         >
-          <div className="flex items-center text-lg font-bold bg-red-200 inline-block px-4 py-2 rounded shadow hover:text-black border border-transparent transition-colors duration-200 hover:border-black">
+          <div className="flex items-center text-lg font-bold bg-red-200 inline-block px-4 py-1 rounded shadow hover:text-black border border-transparent transition-colors duration-200 hover:border-black">
             <span className="ml-2">ゲーム終了</span>
           </div>
         </button>
