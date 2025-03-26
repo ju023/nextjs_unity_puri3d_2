@@ -1,0 +1,20 @@
+// app/admin/layout.tsx
+"use client";
+
+import { useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { logout } from "../lib/admin/admin-auth";
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (pathname !== "/login") {
+      logout(); // ページ移動したら強制ログアウト
+      router.push("/login");
+    }
+  }, [pathname, router]);
+
+  return <>{children}</>;
+}
