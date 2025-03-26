@@ -3,15 +3,22 @@
 // import Link from 'next/link';
 
 "use client";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 
 export default function UnityHeader() {
-  const router = useRouter();
+  // const router = useRouter();
   // ゲーム終了の処理
   const exitGame = () => {
     // 確認ダイアログを表示
     if (window.confirm("本当にゲームを終了しますか？")) {
-      router.push("/");
+      // router.push("/");
+      // 特定のページに移動
+      window.location.assign('/');
+
+      // ページ読み込み完了後に再読み込み
+      window.onload = function() {
+        window.location.reload();
+      };
     }
   };
 

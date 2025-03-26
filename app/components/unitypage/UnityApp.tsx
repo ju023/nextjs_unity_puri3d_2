@@ -1,7 +1,11 @@
+//app/components/unitypage/UnityApp.tsx
+
 import React, { useEffect
                 ,useState
-                ,useRef } from "react";
-import { useCreateUnityContext } from "../../lib/unity-context";
+                ,useRef 
+                // ,useContext
+              } from "react";
+import { useCreateUnityContext } from "../../lib/unity/unity-context";
 import UnityDisplay from "./UnityDisplay";
 import UnityController from "./UnityController";
 // import UnityExitBtn from "./UnityExitBtn";
@@ -9,17 +13,31 @@ import styles from "../../styles/UnityApp.module.css";
 import { auth } from "../../lib/firebase/firebase-config"; // Firebase Authentication の auth をインポート
 import { onAuthStateChanged } from "firebase/auth"; // onAuthStateChanged をインポート
 import { useRouter } from "next/navigation"; // useRouter をインポート
-import { getSelectMessages } from "@/app/lib/firebase/firebase-db";
+import { getSelectMessage, getSelectSaveData } from "@/app/lib/firebase/firebase-db";
+import { useSavedataFlag, SavedataFlagProvider } from "./UnityFlagManager"; // フラグ管理フックをインポート
+// import { UnityFncSendSaveData } from "./UnityFlagManager";
+import {  // Message,
+          SaveData,  } from "@/app/lib/firebase/firebase-interface";
+//import { UnityControllerProps } from "@/app/lib/unity/unity-interface";
 
 
 // Unity画面をここで統合する（主に表示のみ行う）
-export const UnityApp: React.FC = () => {
+export const UnityAppContent: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null); // ログイン状態を管理する state
   const [showLoginLightbox, setShowLoginLightbox] = useState(false); // ライトボックスの表示状態を管理する state
   const router = useRouter(); // useRouter を初期化
-  const [isLoginUid, setLoginUid] = useState(String); // 取得したいメッセージのuid
+  // const [isLoginUid, setLoginUid] = useState(String); // 取得したいメッセージのuid
   const [isLoginUidReady, setIsLoginUidReady] = useState(false); // isLoginUid設定完了フラグ
   const isFirstRender = useRef(true); // 初回レンダリングフラグ
+  // const { IsUidflagRef } = useSavedataFlag(); // フラグと操作関数を取得
+  // Context からフラグを取得・操作
+  const { IsLoginUidFlag, setLoginUidFlagFnc, savedataFlag } = useSavedataFlag();
+  // UnityContextを定義
+  // const unityContext2 = useCreateUnityContext(); 
+  // const sendDataToUnityManager = UnityFncSendSaveData(unityContext);
+  // const test4: string = "ssaa";
+  // const contextValue = useContext(SavedataFlagContext2);
+  
 
   // 1:Unityページに遷移:最初にログイン済みか検証
   useEffect(() => {
@@ -29,9 +47,15 @@ export const UnityApp: React.FC = () => {
         if (user) {
             console.log("ログイン済み");
             // console.log(user.uid); // ID(uid)の確認。これでDBとデータを紐づけできるかも？
-            setLoginUid(user.uid);  // ログインユーザーを変数に保持
+            // setLoginUid(user.uid);  // ログインユーザーを変数に保持
             setIsLoginUidReady(true); // isLoginUid設定完了
-            console.log(isLoginUid);
+            console.log("user = ", user.uid);
+            // console.log("isLoginUid = ", isLoginUid);
+            // Context API経由でUIDを設定
+            setLoginUidFlagFnc(user.uid);
+            // console.log("IsLoginUidFlag = ", IsLoginUidFlag);
+            // contextValue = "";
+            // setLoginUidFlagFnc(isLoginUid);    // グローバルで保持するためUnityFlagManager.tsxに設定
         } else {
             console.log("未ログイン");
             setShowLoginLightbox(true); // ライトボックスを表示
@@ -43,12 +67,19 @@ export const UnityApp: React.FC = () => {
     }
   })
 
+  /*
+  useEffect(() => {
+    console.log("UnityApptsxのIsLoginUidFlagの値:", IsLoginUidFlag);  // 値の変更を監視
+  }, [IsLoginUidFlag]);
+  */
+  
+
   // 2:ログインユーザーの最新情報を取得
   useEffect(() => {
     if (isFirstRender.current && isLoginUidReady) {
 
       const checkLogInUser = async() => {
-        const messages = await getSelectMessages(isLoginUid);
+        const messages = await getSelectMessage(IsLoginUidFlag);
         if (messages.length > 0) {
           console.log("最新メッセージ:", messages[0]);
           isFirstRender.current = false; // 初回レンダリングフラグを false に設定
@@ -60,7 +91,63 @@ export const UnityApp: React.FC = () => {
       checkLogInUser();
 
     }
-  }, [isLoginUid, isLoginUidReady])  // isLoginUid を依存配列に追加
+  }, [IsLoginUidFlag, isLoginUidReady])  // isLoginUid を依存配列に追加
+
+  // 3:ログインユーザーの最新セーブデータを取得
+  useEffect(() => {
+    console.log("IsLoginUidFlag = ", IsLoginUidFlag)
+    if (savedataFlag) {
+
+      const checkLogInUserSaveData = async() => {
+        const savedata = await getSelectSaveData(IsLoginUidFlag);
+        if (savedata.length > 0) {
+          console.log("最新セーブデータ:", savedata[0]);
+          isFirstRender.current = false; // 初回レンダリングフラグを false に設定
+          // sendDataToUnity1(savedata[0]);
+          // sendDataToUnity();
+          sendDataToUnity(savedata[0]);
+        } else {
+          console.log("セーブデータはありません。");
+        }
+      };
+
+      checkLogInUserSaveData();
+      // setFlagFalse(); // 処理実行後にフラグを false に設定
+
+    }
+  }, [IsLoginUidFlag, isLoginUidReady, savedataFlag]);
+
+
+  //
+  // Unity: NextjsからUnityにセーブデータを送信する処理
+  //
+  const sendDataToUnity = async (messages_savedata: SaveData) => {
+    if (unityContext && unityContext.sendMessage) {
+    // const { sendMessage } = unityContext;
+    // const sendDataToUnity = async(messages_savedata: SaveData) => {
+      if (messages_savedata) {
+        console.warn("NextjsからUnityへ送信データ: = " , messages_savedata);
+        unityContext.sendMessage("UnityWebGL", "OnButtonPressed", "savedata_get" + JSON.stringify(messages_savedata));
+      } else {
+        console.warn("送信データがありません");
+      }
+    } else {
+      console.warn("Unity がまだロードされていません");
+    }
+  };
+
+  /*
+  const sendDataToUnity1 = async(messages_savedata: SaveData) => {
+    // test3 = "wwq"
+    // test3 = isSendData;
+    if (messages_savedata) {
+      console.warn("test3 = " , messages_savedata);
+      sendMessage("UnityWebGL", "OnButtonPressed", isSendData);
+    } else {
+      console.warn("Unity がまだロードされていません");
+    }
+  };
+  */
 
   const unityContext = useCreateUnityContext(); // 外部の関数を呼び出す
 
@@ -91,8 +178,16 @@ export const UnityApp: React.FC = () => {
       {/*<UnityExitBtn />*/}
       {/* unityContext を渡す */}
       <UnityDisplay unityContext={unityContext} />
-      <UnityController unityContext={unityContext} />
+      <UnityController unityContext={unityContext} sendMessage={unityContext.sendMessage}/>
     </div>
+  );
+};
+
+export const UnityApp: React.FC = () => {
+  return (
+    <SavedataFlagProvider>
+      <UnityAppContent />
+    </SavedataFlagProvider>
   );
 };
 
