@@ -1,5 +1,6 @@
 // app/components/unitypage/UnityFlagManager.tsx
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { useCreateUnityContext } from "../../lib/unity/unity-context";
 // import { UnityControllerProps } from '@/app/lib/unity/unity-interface';
 // import { SaveData } from '@/app/lib/firebase/firebase-interface';
 
@@ -7,6 +8,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 export const SavedataFlagContext = createContext<{
   savedataFlag: boolean;
   IsLoginUidFlag: string;
+  unityContext: ReturnType<typeof useCreateUnityContext>; // null を許容しない
   setFlagTrue: () => void;
   setFlagFalse: () => void;
   setLoginUidFlagFnc: (userId: string) => void;
@@ -14,11 +16,15 @@ export const SavedataFlagContext = createContext<{
 }>({
   savedataFlag: false,
   IsLoginUidFlag: "",
+  unityContext: {} as ReturnType<typeof useCreateUnityContext>, // null を許容しない
   setFlagTrue: () => {},
   setFlagFalse: () => {},
   setLoginUidFlagFnc: () => {},
   // setTestNumber: () => {},
 });
+
+// UnityContext 型を使用してコンテキストを作成
+// export const UnityContextApi = React.createContext<useCreateUnityContext | undefined>(undefined);
 
 /*
 export const SavedataFlagContext2 = createContext<{
@@ -30,13 +36,15 @@ export const SavedataFlagContext2 = createContext<{
 export const SavedataFlagProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [savedataFlag, setSavedataFlag] = useState(false);
   const [IsLoginUidFlag, setLoginUidFlag] = useState<string>("");
-  const [IsTest, SetTest] = useState<number>(0);
+  // const [ IsSaveDataFlag, setSaveDataFlag ] = useState<boolean>(false);
+  // const [IsTest, SetTest] = useState<number>(0);
 
   /*
   const setTestNumber = () => {
     SetTest(prevState => prevState + 1);
   };
   */
+  const unityContext = useCreateUnityContext(); // 外部の関数を呼び出す
 
   const setFlagTrue = () => {
     setSavedataFlag(prevState => prevState = true);
@@ -85,6 +93,7 @@ export const SavedataFlagProvider: React.FC<{ children: React.ReactNode }> = ({ 
       value={{
         savedataFlag,
         IsLoginUidFlag,
+        unityContext,
         setFlagTrue,
         setFlagFalse,
         setLoginUidFlagFnc,

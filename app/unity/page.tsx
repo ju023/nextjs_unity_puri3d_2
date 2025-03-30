@@ -1,6 +1,7 @@
+// app/unity/page.tsx
 import React from "react";
 import UnityWrapper from "../components/unitypage/UnityWrapper"; // `UnityWrapper.tsx` をインポート
-import UnityHeader from "../components/header/UnityHeader";
+// import UnityHeader from "../components/header/UnityHeader";
 // import { NextPage } from 'next';
 
 
@@ -10,7 +11,7 @@ export default function UnityHome() {
 
     <main>
       {/* ヘッダー */}
-      <UnityHeader/>
+      {/*<UnityHeader/>*/}
       {/* ヘッダーとpage.tsxの間に空白 */}
       {/*<div className="bg-green-50 min-h-[50px]"></div>*/}
       {/* Unityゲームの内容 */}

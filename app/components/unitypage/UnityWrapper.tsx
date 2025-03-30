@@ -1,3 +1,4 @@
+// app/conponents/unitypage/UnityWrapper.tsx
 // dynamicを使用しクライアント処理にするため用のクッション用ファイル
 // サーバーサイドレンダリング時にエラーが発生するのを防ぎ、クライアントサイドでのみUnity WebGLコンポーネントをロードする
 

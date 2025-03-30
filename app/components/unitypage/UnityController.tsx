@@ -8,6 +8,8 @@ import styles from "../../styles/UnityApp.module.css";
 // import { getSelectSaveData } from "@/app/lib/firebase/firebase-db";
 import { useSavedataFlag } from "./UnityFlagManager"; // フラグ管理フックをインポート
 import { UnityControllerProps } from "@/app/lib/unity/unity-interface";
+import { sendFirebasesaveSavedatas, fetchFirebaseSelectSaveData } from "@/app/lib/firebase/firebase-functions";
+// import { Console } from "console";
 
 // windowオブジェクトの型拡張
 declare global {
@@ -23,7 +25,7 @@ export const UnityController: React.FC<UnityControllerProps> = ({ unityContext }
   const [ isSendData, setIssendData ] = useState<string>("");
   // const { setFlagTrue } = useSavedataFlag(); // フラグ操作関数を取得
   // const { savedataFlag, setFlagFalse, IsLoginUidFlag } = useSavedataFlag(); // フラグと操作関数を取得
-  const { /* IsLoginUidFlag, setLoginUidFlagFnc, */ setFlagTrue } = useSavedataFlag();
+  const { IsLoginUidFlag, /* setLoginUidFlagFnc, */ setFlagTrue } = useSavedataFlag();
   // const test2: string = "002:212:114";
   // let test3: string = "21";
 
@@ -42,6 +44,17 @@ export const UnityController: React.FC<UnityControllerProps> = ({ unityContext }
         // setFlagTrue(); // フラグを true に設定
         setFlagTrue();  // フラグを true に設定
       }
+      // ゲーム終了：2-2_ゲーム終了時にUnityからNextjsにセーブデータをpost
+      if (message.length >= 18  && message.substring(0,18) == "exitgame_data_post") {
+        console.log("savedataの処理:", message.substring(19));
+        // setIssendData("001:221:221");
+        console.log(isSendData);
+        // setFlagTrue(); // フラグを true に設定
+        // setFlagTrue();  // フラグを true に設定
+        handleSendSavedatas(message.substring(19));   // firebaseへセーブデータをpost
+      } else {
+        console.log("savedataではありません");
+      }
     };
    }
     // コンポーネントのアンマウント時に関数を削除
@@ -52,6 +65,64 @@ export const UnityController: React.FC<UnityControllerProps> = ({ unityContext }
     };
   }, [isLoaded, /*setFlagTrue*/]); // isLoaded の変化を監視
   
+  /*
+  // ゲーム終了：1_NextjsからUnityへゲーム終了時のセーブデータ取得のリクエスト
+  const sendExitGameDataToUnity = async (messages_exitgamedata: String) => {
+    if (unityContext && unityContext.isLoaded && unityContext.sendMessage) {
+    // const { sendMessage } = unityContext;
+    // const sendDataToUnity = async(messages_savedata: SaveData) => {
+      if (messages_exitgamedata) {
+        console.warn("NextjsからUnityへ送信データ: = " , messages_exitgamedata);
+        unityContext.sendMessage("UnityWebGL", "OnButtonPressed", "exitgame_data_pls");
+      } else {
+        console.warn("送信データがありません");
+      }
+    } else {
+      console.warn("Unity がまだロードされていません");
+    }
+  };
+  */
+
+  //
+  // ゲーム終了：3_ゲーム終了時にNextjsからfirebaseへセーブデータをpost
+  //
+  const handleSendSavedatas = async (message: string) => {
+    // メッセージが空またはユーザーが存在しない場合は処理を中断
+    if (!message.trim() || !IsLoginUidFlag) return;
+    // Firebaseにメッセージを送信
+    await sendFirebasesaveSavedatas(message, IsLoginUidFlag);
+    // メッセージを再取得し、状態を更新
+    fetchFirebaseSaveData();
+    // setMessages(fetchedMessages);
+  };
+
+  //
+  // ゲーム終了：4_ゲーム終了時にfirebaseからNextjsへセーブデータのレスポンス返送しTopPageに遷移
+  //
+  const fetchFirebaseSaveData = async () => {
+    const fetchedSavedata = await fetchFirebaseSelectSaveData(IsLoginUidFlag);
+    console.log("firebaseに保存後の最新セーブデータ：",fetchedSavedata);
+    if (fetchedSavedata) {
+
+      window.confirm("セーブデータを保存できました")
+      // 特定のページに移動
+      window.location.assign('/');
+
+      // ページ読み込み完了後に再読み込み
+      window.onload = function() {
+        window.location.reload();
+      };
+    } else {
+      window.confirm("セーブデータの保存に失敗しました")
+      // 特定のページに移動
+      window.location.assign('/');
+
+      // ページ読み込み完了後に再読み込み
+      window.onload = function() {
+        window.location.reload();
+      };
+    }
+  }
 
   /*
   // 3:ログインユーザーの最新セーブデータを取得
