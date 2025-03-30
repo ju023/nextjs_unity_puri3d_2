@@ -31,7 +31,7 @@ interface SaveData {
 }
 */
 
-// FirebaseDB データを保存処理
+// FirebaseDB messagesコレクションにデータを保存処理
 export const saveMessage = async (message: string, userId: string) => {
   try {
     await addDoc(collection(db, COLLECTION_NAME), {
@@ -42,6 +42,20 @@ export const saveMessage = async (message: string, userId: string) => {
     console.log("メッセージを保存しました:", message);
   } catch (error) {
     console.error("メッセージの保存に失敗:", error);
+  }
+};
+
+// FirebaseDB savedatasコレクションにデータを保存処理
+export const saveSavedatas = async (message: string, userId: string) => {
+  try {
+    await addDoc(collection(db, COLLECTION_NAME_SAVE), {
+      data_coord: message,
+      userId,
+      createdAt: new Date(),
+    });
+    console.log("セーブデータを保存しました:", message);
+  } catch (error) {
+    console.error("セーブデータの保存に失敗:", error);
   }
 };
 

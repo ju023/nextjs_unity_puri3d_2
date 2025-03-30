@@ -1,17 +1,33 @@
-// app/components/header.tsx
+// app/components/header/UnityHeader.tsx
 // import Image from "next/image";
 // import Link from 'next/link';
 
 "use client";
 // import { useRouter } from "next/navigation";
+import {  // Message,
+             SaveData,  } from "@/app/lib/firebase/firebase-interface";
+import { UnityControllerProps } from "@/app/lib/unity/unity-interface";
+import { useSavedataFlag } from "../unitypage/UnityFlagManager";
+// import { useCreateUnityContext } from "@/app/lib/unity/unity-context";
+import { SavedataFlagProvider } from "../unitypage/UnityFlagManager";
+// import {  }
 
-export default function UnityHeader() {
+
+export const UnityHeader: React.FC = () => {
+  const { unityContext } = useSavedataFlag(); // コンテキストから unityContext を取得
+
+  // const unityContext = useCreateUnityContext(); // 外部の関数を呼び出す
+
   // const router = useRouter();
   // ゲーム終了の処理
   const exitGame = () => {
     // 確認ダイアログを表示
-    if (window.confirm("本当にゲームを終了しますか？")) {
+    if (true/*window.confirm("本当にゲームを終了しますか？")*/) {
+
+      // ゲーム終了：0_ゲーム終了しセーブデータをfirebaseへ保存の処理開始
+      sendExitGameDataToUnity("exitgame_data_pls");
       // router.push("/");
+      /*
       // 特定のページに移動
       window.location.assign('/');
 
@@ -19,14 +35,33 @@ export default function UnityHeader() {
       window.onload = function() {
         window.location.reload();
       };
+      */
     }
   };
+
+  // ゲーム終了：1_NextjsからUnityへゲーム終了時のセーブデータ取得のリクエスト
+  
+  const sendExitGameDataToUnity = async (messages_exitgamedata: String) => {
+    if (unityContext && unityContext.isLoaded && unityContext.sendMessage) {
+    // const { sendMessage } = unityContext;
+    // const sendDataToUnity = async(messages_savedata: SaveData) => {
+      if (messages_exitgamedata) {
+        console.warn("NextjsからUnityへ送信データ: = " , messages_exitgamedata);
+        unityContext.sendMessage("UnityWebGL", "OnButtonPressed", "exitgame_data_pls");
+      } else {
+        console.warn("送信データがありません");
+      }
+    } else {
+      console.warn("Unity がまだロードされていません");
+    }
+  };
+  
 
   return (
     // 独自フォントの実装 font-cinecaption
     <div className="bg-green-50 text-gray-800 font-cinecaption">
         {/* ヘッダー */}
-        <header className="fixed justify-center top-0 w-full flex flex-col md:flex-row  items-center p-2 bg-green-100 shadow">
+        {/*<header className="fixed justify-center top-0 flex flex-col md:flex-row  items-center p-2 bg-green-100 shadow">*/}
         {/* Unityゲーム終了のボタン */}
         {/*<UnityExitBtn/>*/}
         {/*<Link href="/unity" className="text-gray-600 hover:text-black">
@@ -44,10 +79,20 @@ export default function UnityHeader() {
             <span className="ml-2">ゲーム終了</span>
           </div>
         </button>
-        </header>
+        {/*</header>*/}
     </div>
   );
-}
+};
+
+/*
+export const UnityApp: React.FC = () => {
+  return (
+    <SavedataFlagProvider>
+      <UnityHeader />
+    </SavedataFlagProvider>
+  );
+};
+*/
 
 // export default function UnityHeader() {
 //   return (

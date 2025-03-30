@@ -1,7 +1,7 @@
 // app/unity/layout.tsx
 
 import '../styles/globals.css'; // グローバルCSSをインポート
-// import UnityHeader from '../components/unity/UnityHeader';
+// import { UnityHeader } from '../components/header/UnityHeader';
 // import Topmain from './components/top/main';
 
 export const metadata = {

@@ -1,19 +1,29 @@
 // Firebase操作用の関数ファイル（firebase系の操作はこのファイルから使用する。処理の一元管理）
 // app/lib/firebase/firebase-functions.ts
-import { saveMessage, getMessages } from "./firebase-db";
+import { saveMessage, saveSavedatas, getMessages, getSelectSaveData } from "./firebase-db";
 import { signInWithGoogle } from "./firebase-auth";
 import { signInAnonymously, signOut } from "firebase/auth";
 import { auth } from "./firebase-config";
 import { signUpWithEmail, loginWithEmail } from "./firebase-auth";
 
-// DB：データ設定の処理
+// DB：メッセージデータMsg設定の処理
 export const sendFirebaseMessage = async (message: string, userId: string) => {
   await saveMessage(message, userId);
+};
+
+// DB：セーブデータ設定のMsg処理
+export const sendFirebasesaveSavedatas = async (message: string, userId: string) => {
+  await saveSavedatas(message, userId);
 };
 
 // DB：全データ取得の処理
 export const fetchFirebaseMessages = async () => {
   return await getMessages();
+};
+
+// DB：最新セーブデータ1件取得の処理
+export const fetchFirebaseSelectSaveData = async (userId: string) => {
+  return await getSelectSaveData(userId);
 };
 
 // ユーザー：Googleログイン処理

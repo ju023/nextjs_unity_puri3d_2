@@ -5,9 +5,10 @@ import React, { useEffect
                 ,useRef 
                 // ,useContext
               } from "react";
-import { useCreateUnityContext } from "../../lib/unity/unity-context";
+// import { useCreateUnityContext } from "../../lib/unity/unity-context";
 import UnityDisplay from "./UnityDisplay";
 import UnityController from "./UnityController";
+import { UnityHeader } from "../header/UnityHeader";
 // import UnityExitBtn from "./UnityExitBtn";
 import styles from "../../styles/UnityApp.module.css";
 import { auth } from "../../lib/firebase/firebase-config"; // Firebase Authentication の auth をインポート
@@ -15,6 +16,7 @@ import { onAuthStateChanged } from "firebase/auth"; // onAuthStateChanged をイ
 import { useRouter } from "next/navigation"; // useRouter をインポート
 import { getSelectMessage, getSelectSaveData } from "@/app/lib/firebase/firebase-db";
 import { useSavedataFlag, SavedataFlagProvider } from "./UnityFlagManager"; // フラグ管理フックをインポート
+
 // import { UnityFncSendSaveData } from "./UnityFlagManager";
 import {  // Message,
           SaveData,  } from "@/app/lib/firebase/firebase-interface";
@@ -31,7 +33,7 @@ export const UnityAppContent: React.FC = () => {
   const isFirstRender = useRef(true); // 初回レンダリングフラグ
   // const { IsUidflagRef } = useSavedataFlag(); // フラグと操作関数を取得
   // Context からフラグを取得・操作
-  const { IsLoginUidFlag, setLoginUidFlagFnc, savedataFlag } = useSavedataFlag();
+  const { IsLoginUidFlag, setLoginUidFlagFnc, savedataFlag, unityContext } = useSavedataFlag();
   // UnityContextを定義
   // const unityContext2 = useCreateUnityContext(); 
   // const sendDataToUnityManager = UnityFncSendSaveData(unityContext);
@@ -119,7 +121,7 @@ export const UnityAppContent: React.FC = () => {
 
 
   //
-  // Unity: NextjsからUnityにセーブデータを送信する処理
+  // Unity: 4_ゲーム開始NextjsからUnityにセーブデータを送信する処理
   //
   const sendDataToUnity = async (messages_savedata: SaveData) => {
     if (unityContext && unityContext.sendMessage) {
@@ -149,7 +151,7 @@ export const UnityAppContent: React.FC = () => {
   };
   */
 
-  const unityContext = useCreateUnityContext(); // 外部の関数を呼び出す
+  // const unityContext = useCreateUnityContext(); // 外部の関数を呼び出す
 
   // ログイン状態の場合はローディング表示
   if (isLoggedIn === null) {
@@ -176,6 +178,10 @@ export const UnityAppContent: React.FC = () => {
   return (
     <div className={styles.unityContainer}>
       {/*<UnityExitBtn />*/}
+      <header className="fixed w-full justify-center top-0 flex flex-col md:flex-row  items-center p-2 bg-green-100 shadow">
+      <UnityHeader />
+      </header>
+      {/*<UnityHeader unityContext={unityContext} sendMessage={unityContext.sendMessage}/>*/}
       {/* unityContext を渡す */}
       <UnityDisplay unityContext={unityContext} />
       <UnityController unityContext={unityContext} sendMessage={unityContext.sendMessage}/>
