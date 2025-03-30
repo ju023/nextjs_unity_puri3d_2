@@ -1,6 +1,6 @@
 // app/lib/unity-context.ts
 import { useUnityContext } from "react-unity-webgl";
-import React from 'react';
+// import React from 'react';
 
 
 // UnityContext 型を使用してコンテキストを作成

@@ -9,7 +9,7 @@ import styles from "../../styles/UnityApp.module.css";
 import { useSavedataFlag } from "./UnityFlagManager"; // フラグ管理フックをインポート
 import { UnityControllerProps } from "@/app/lib/unity/unity-interface";
 import { sendFirebasesaveSavedatas, fetchFirebaseSelectSaveData } from "@/app/lib/firebase/firebase-functions";
-import { Console } from "console";
+// import { Console } from "console";
 
 // windowオブジェクトの型拡張
 declare global {

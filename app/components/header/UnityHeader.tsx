@@ -4,12 +4,12 @@
 
 "use client";
 // import { useRouter } from "next/navigation";
-import {  // Message,
-             SaveData,  } from "@/app/lib/firebase/firebase-interface";
+// import {  // Message,
+//              SaveData,  } from "@/app/lib/firebase/firebase-interface";
 import { UnityControllerProps } from "@/app/lib/unity/unity-interface";
 import { useSavedataFlag } from "../unitypage/UnityFlagManager";
 // import { useCreateUnityContext } from "@/app/lib/unity/unity-context";
-import { SavedataFlagProvider } from "../unitypage/UnityFlagManager";
+// import { SavedataFlagProvider } from "../unitypage/UnityFlagManager";
 // import {  }
 
 
@@ -41,7 +41,7 @@ export const UnityHeader: React.FC = () => {
 
   // ゲーム終了：1_NextjsからUnityへゲーム終了時のセーブデータ取得のリクエスト
   
-  const sendExitGameDataToUnity = async (messages_exitgamedata: String) => {
+  const sendExitGameDataToUnity = async (messages_exitgamedata: string) => {
     if (unityContext && unityContext.isLoaded && unityContext.sendMessage) {
     // const { sendMessage } = unityContext;
     // const sendDataToUnity = async(messages_savedata: SaveData) => {
