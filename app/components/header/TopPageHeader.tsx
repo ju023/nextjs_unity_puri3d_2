@@ -15,7 +15,7 @@ export default function TopHeader() {
           <div className="flex w-full justify-between">
             {/* メニューヘッダーの要素 */}
             {/*<div className="flex-1 border-r-4">*/}
-            <div className="items-center flex px-4">
+            <div className="items-center flex px-2">
               <IconHeader />
             </div>
             <div className="items-center flex ">
