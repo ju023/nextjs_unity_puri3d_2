@@ -31,11 +31,11 @@ export default function TopApp() {
       </section>
       {/* 文字 + logo と puri3dmodel 横並び配置 end */}
 
-      {/* ストーリー */}
+      {/* 物語 */}
       <div id="story" className="mb-24"></div>
       <section>
         <div className="border-t-4 border-gray-200 shadow"></div>
-        <h3 className="mt-12 text-lg font-bold bg-gray-200 inline-block px-4 py-2 rounded shadow">ストーリー</h3>  
+        <h3 className="mt-12 text-lg font-bold bg-gray-200 inline-block px-4 py-2 rounded shadow">物語</h3>  
         <div className="flex flex-col md:flex-col items-center gap-0">
           {/* 画像 + 文字 横並び配置 */}
           <div className="mt-4 flex flex-col md:flex-row items-center gap-6 justify-center"> 

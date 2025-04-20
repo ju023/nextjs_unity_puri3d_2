@@ -15,15 +15,15 @@ export default function AdminPageHeader() {
           <div className="flex w-full justify-between">
             {/* メニューヘッダーの要素 */}
             {/*<div className="flex-1 border-r-4">*/}
-            <div className="items-center flex px-4">
+            <div className="items-center flex px-2">
               <IconHeader />
             </div>
 
             {/*</div>*/}
             {/* 管理認証、ログイン認証の要素 */}
-            <div className="items-center flex border-l-4">
+            {/* <div className="items-center flex border-l-4">
               <AdminHeader/>
-            </div>
+            </div> */}
           </div>
         </header>
     </div>

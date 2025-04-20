@@ -8,7 +8,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { isAuthenticatedClient } from "../../lib/admin/admin-auth-client"
 // import { logoutClient } from "../../lib/admin/admin-auth-client"; // logoutClient をインポート
 import { logoutFromFirebase } from "@/app/lib/firebase/firebase-functions";
-// import Link from 'next/link';
+import Link from 'next/link';
 
 export default function AdminHeader() {
 
@@ -29,7 +29,7 @@ export default function AdminHeader() {
       };
 
       onAuthStateChanged(auth, async (user) => {
-        
+
         await checkAuth(); // onAuthStateChanged 内で checkAuth を呼び出す
 
         if (isAuthenticated) {
@@ -52,8 +52,12 @@ export default function AdminHeader() {
         }
       });
 
-      
+
   }, [isAuthenticated]);
+
+  const handleLogin = () => {
+    window.location.assign('/login');
+  };
 
   const handleLogout = async () => {
     await logoutFromFirebase();
@@ -78,65 +82,118 @@ export default function AdminHeader() {
     // 独自フォントの実装 font-cinecaption
     <div className="bg-green-50 text-gray-800 font-cinecaption">
       {/* ヘッダー */}
-      <div className="flex flex-col md:flex-row py-2 px-8 bg-green-100">
-        {/* Unityゲームプレイのボタン */}
-
+      <div className="flex flex-col md:flex-row py-2 px-2 bg-green-100 items-center justify-between">
         {/* 他ヘッダーボタン */}
-        <div className="">
-          {/*
-          <div className="flex">
+        <nav className="space-x-2 text-2xl flex items-center">
+          {/* 管理者ログインicon */}
           {showAdminElements && (
-            <a className="text-gray-600 text-[14px]" id="admin_txt">管理者</a>
-          )}
-          {showAdminElements && showUserElements && (
-            <a className="text-gray-600 text-[14px]" id="colon_txt"> : </a>
-          )}
-          {showUserElements && (
-            <a className="text-gray-600 text-[9px]" id="user_txt">ログアウト</a>
-          )}
-          </div>
-          */}
-          <nav className="space-x-2 text-2xl flex">
-            {/* 管理者ログインicon */}
-            {showAdminElements && (
-              <div className="rounded-lg flex flex-col items-center">
-                <a className="text-gray-600 text-[14px]" id="admin_txt">管理者</a>
-                <Image src="/assets/images/hagyruma2_800.png" alt="Haguruma_img" width={40} height={40} className="rounded-lg" />
-              </div>
-            )}
-            {/* ユーザーログアウトicon */}
-            {showUserElements && (
-              <div
-                id="Logout"
-                className="cursor-pointer rounded-lg flex flex-col items-center hover:text-black border border-transparent transition-colors duration-200 hover:border-black"
-                onClick={handleLogoutConfirmation}>
-                <a className="text-gray-600 text-[12px]" id="logout_txt">ログアウト</a>
-                <Image src="/assets/images/logout_icon_800.png" alt="Logout_img" width={40} height={30} className="" />
-              </div>
-            )}
-            {/* ユーザーログインicon */}
-            {showUserElements && (
-              <div className="rounded-lg flex flex-col items-center">
-                <a className="text-gray-600 text-[12px]" id="user_txt">ユーザー</a>
-                <Image src="/assets/images/user_g1_800.png" alt="User_img" width={40} height={40} className="" />
-              </div>
-            )}
-            {showLoginButton && (
-            <div className="flex items-center text-lg font-bold bg-emerald-200 inline-block px-4 rounded shadow hover:text-black border border-transparent transition-colors duration-200 hover:border-black" id="login_btn">
-                <a href="/login" className="text-gray-600 hover:text-black">ログイン</a>
+            <div className="rounded-lg flex flex-col items-center">
+              <a
+                className="text-gray-600 text-[14px]"
+                id="admin_txt">
+                管理者
+              </a>
+              <Image
+                src="/assets/images/hagyruma2_800.png"
+                alt="Haguruma_img"
+                width={40}
+                height={40}
+                className="rounded-lg" />
             </div>
-            )}
-          </nav>
-        </div>
+          )}
+          {/* ユーザーログアウトicon */}
+          {showUserElements && (
+            <div
+              id="Logout"
+              className="
+                cursor-pointer rounded-lg flex flex-col items-center hover:text-black
+                border border-transparent transition-colors duration-200 hover:border-black"
+              onClick={handleLogoutConfirmation}>
+              <a
+                className="text-gray-600 text-[6px] md:text-[12px]"
+                id="logout_txt">
+                ログアウト
+              </a>
+              <Image
+                src="/assets/images/logout_icon_800.png"
+                alt="Logout_img"
+                width={40}
+                height={30}
+                className="" />
+            </div>
+          )}
+          {/* ユーザーログインicon */}
+          {showUserElements && (
+            <div className="rounded-lg flex flex-col items-center">
+              <a
+                className="text-gray-600 text-[8px] md:text-[12px]"
+                id="user_txt">
+                ユーザー
+              </a>
+              <Image
+                src="/assets/images/user_g1_800.png"
+                alt="User_img"
+                width={40}
+                height={40}
+                className="" />
+            </div>
+          )}
+          {/* ログインボタン (PC画面) */}
+          {showLoginButton && (
+            <div
+              className="
+                hidden md:flex items-center text-lg font-bold bg-emerald-200 inline-block px-4 rounded shadow hover:text-black
+                border border-transparent transition-colors duration-200 hover:border-black"
+              id="login_btn">
+              <a
+                href="/login"
+                className="text-gray-600 hover:text-black">
+                ログイン
+              </a>
+            </div>
+          )}
+          {/* ログインボタン (スマホ画面) */}
+          {showLoginButton && (
+            <div
+              id="Login"
+              className="
+                md:hidden cursor-pointer rounded-lg flex flex-col items-center hover:text-black
+                border border-transparent transition-colors duration-200 hover:border-black"
+              onClick={handleLogin}>
+              <a
+                className="text-gray-600 text-[8px] md:text-[12px]"
+                id="login_txt">
+                ログイン
+              </a>
+              <Image
+                src="/assets/images/login_icon_800.png"
+                alt="Login_img"
+                width={30}
+                height={20}
+                className="" />
+            </div>
+          )}
+        </nav>
       </div>
       {/* ライトボックス */}
       {showLogoutConfirmation && (
-        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center
+                                items-center">
           <div className="bg-white p-8 rounded-lg">
             <p className="text-lg mb-4">ログアウト<br/><br/>本当にしますか？</p>
             <div className="flex justify-around">
-              <button className="bg-red-500 text-white px-4 py-2 rounded-lg" onClick={handleConfirmLogout}>Yes</button>
-              <button className="bg-gray-300 px-4 py-2 rounded-lg" onClick={handleCancelLogout}>No</button>
+              {/* ライトボックスのYesボタン */}
+              <button
+                className="bg-red-500 text-white px-4 py-2 rounded-lg"
+                onClick={handleConfirmLogout}>
+                Yes
+              </button>
+              {/* ライトボックスのNoボタン */}
+              <button
+                className="bg-gray-300 px-4 py-2 rounded-lg"
+                onClick={handleCancelLogout}>
+                No
+              </button>
             </div>
           </div>
         </div>

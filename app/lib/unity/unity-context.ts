@@ -9,9 +9,9 @@ import { useUnityContext } from "react-unity-webgl";
 // useUnityContext を定義する専用のファイル、Unity WebGL ビルド設定を事前定義
 export const useCreateUnityContext = () => {
   return useUnityContext({
-    loaderUrl: "/unity-build/Build/20250330_v2.1_b4.loader.js",
-    dataUrl: "/unity-build/Build/20250330_v2.1_b4.data",
-    frameworkUrl: "/unity-build/Build/20250330_v2.1_b4.framework.js",
-    codeUrl: "/unity-build/Build/20250330_v2.1_b4.wasm",
+    loaderUrl: "/unity-build/Build/20250420_v2.1_b1.loader.js",
+    dataUrl: "/unity-build/Build/20250420_v2.1_b1.data",
+    frameworkUrl: "/unity-build/Build/20250420_v2.1_b1.framework.js",
+    codeUrl: "/unity-build/Build/20250420_v2.1_b1.wasm",
   });
 };
