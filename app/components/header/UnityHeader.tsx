@@ -59,7 +59,7 @@ export const UnityHeader: React.FC = () => {
 
   return (
     // 独自フォントの実装 font-cinecaption
-    <div className="bg-green-50 text-gray-800 font-cinecaption">
+    <div className="bg-green-100 text-gray-800 font-cinecaption">
         {/* ヘッダー */}
         {/*<header className="fixed justify-center top-0 flex flex-col md:flex-row  items-center p-2 bg-green-100 shadow">*/}
         {/* Unityゲーム終了のボタン */}
