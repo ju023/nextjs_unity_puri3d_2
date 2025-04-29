@@ -44,12 +44,12 @@ Figmaを用いて画面レイアウトや配置などを作成<br/>
 <h3>UML図について</h3>
 
 GoogleAppsScript(GAS)・スプレッドシートを使用しPlantUML・Mermaidを用いての作成。<br/>
-ここから→[PlantUMLのURL](https://docs.google.com/spreadsheets/d/1Pzyacks6uS8ysrEyMfDKb1n_V58ZpnBUDfmrlOC5EBY/edit?usp=sharing)
+ここから→[PlantUMLのURL](https://docs.google.com/spreadsheets/d/1oGBqyiN7ZvhJDISTy3FTy3aW9RhPgkKS3IOtXvQr0u0/edit?usp=sharing)
 
 <h3>仕様設計書について</h3>
 
 スプレッドシートを使用しUnityで実装予定の機能や状態を簡易的な仕様書を用いての作成。<br/>
-ここから→[仕様書のURL](https://docs.google.com/spreadsheets/d/1k3gGBAzy0x3u5c_R8iST26SuqmHTScsuXgbHOcNlZqY/edit?usp=sharing)
+ここから→[仕様書のURL](https://docs.google.com/spreadsheets/d/1Pzyacks6uS8ysrEyMfDKb1n_V58ZpnBUDfmrlOC5EBY/edit?usp=sharing)
 
 <!-- 空白用<br/> -->
 <br/>
